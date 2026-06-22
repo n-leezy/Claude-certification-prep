@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CCA-F Quiz Engine — Active Recall</title>
+<style>
+  :root{--bg:#0f1115;--panel:#181b22;--panel2:#21252e;--ink:#e8eaed;--muted:#9aa3af;
+    --accent:#d97757;--accent2:#6ea8fe;--good:#4ade80;--bad:#f87171;--line:#2c313c;--radius:14px}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:24px}
+  .wrap{max-width:760px;margin:0 auto}
+  h1{font-size:1.5rem;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:.9rem;margin-bottom:20px}
+  .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:18px}
+  select,button{font:inherit;color:var(--ink);background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer}
+  button:hover{border-color:var(--accent)}
+  .pill{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.8rem;color:var(--muted)}
+  .progress{height:6px;background:var(--panel2);border-radius:999px;overflow:hidden;margin-bottom:18px}
+  .progress > div{height:100%;background:var(--accent);width:0;transition:width .3s}
+  .qcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+  .tag{font-size:.7rem;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;margin-bottom:8px}
+  .q{font-size:1.18rem;font-weight:600;margin-bottom:18px}
+  .opt{display:block;width:100%;text-align:left;background:var(--panel2);border:1.5px solid var(--line);
+    border-radius:12px;padding:13px 16px;margin-bottom:10px;cursor:pointer}
+  .opt:hover{border-color:var(--accent2)}
+  .opt.correct{border-color:var(--good);background:rgba(74,222,128,.12)}
+  .opt.wrong{border-color:var(--bad);background:rgba(248,113,113,.12)}
+  .opt:disabled{cursor:default}
+  .why{margin-top:14px;padding:14px 16px;border-left:3px solid var(--accent);background:var(--panel2);border-radius:8px;font-size:.95rem;display:none}
+  .why.show{display:block}
+  .nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+  .score{font-size:.9rem;color:var(--muted)}
+  .result{text-align:center;padding:30px 10px}
+  .result .big{font-size:3rem;font-weight:700}
+  .small{font-size:.8rem;color:var(--muted)}
+  a{color:var(--accent2)}
+  .footnote{margin-top:24px;font-size:.78rem;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>CCA-F Quiz Engine <span class="small">· active recall</span></h1>
+  <div class="sub">Answer from memory, get instant feedback + the reasoning (including why the wrong options are wrong). <em>Unofficial prep.</em></div>
+
+  <div class="bar">
+    <span class="small">Mode:</span>
+    <select id="modeSel">
+      <option value="mix">🔀 Interleaved (all domains)</option>
+      <option value="D1">D1 · Agentic Architecture</option>
+      <option value="D2">D2 · Prompt Engineering</option>
+      <option value="D3">D3 · Tools & MCP</option>
+      <option value="D4">D4 · Context & Reliability</option>
+      <option value="D5">D5 · Claude Code</option>
+    </select>
+    <button id="startBtn">Start / restart</button>
+    <span class="pill" id="counter">—</span>
+  </div>
+
+  <div class="progress"><div id="pbar"></div></div>
+
+  <div id="stage"></div>
+
+  <div class="footnote">
+    Interleaving (mixing domains) is harder than blocked practice — and that's exactly why it works better for retention.
+    See <a href="index.html">study hub</a> · <a href="flashcards.html">flashcards</a>. Full 60-question exams live in <span class="small">04-practice-exams/</span>.
+  </div>
+</div>
+
+<script>
+/* d=domain, q=question, o=options, c=correct index, w=why */
+const Q = [
+ // D1
+ ["D1","A team can fully enumerate the steps to process an invoice. Best build?",["Single autonomous agent","Multi-agent + orchestrator","A fixed workflow (prompt chaining + validation gates)","Evaluator–optimizer loop"],2,"Known fixed steps → a workflow is simpler, cheaper, more predictable. Agents/multi-agent add needless autonomy and cost."],
+ ["D1","Strongest signal you need an agent, not a workflow?",["High volume","The path can't be predicted and the model must adapt","Output must be JSON","You want lower latency"],1,"Unpredictable, adaptive paths define agents. Volume and low-latency actually argue against agents."],
+ ["D1","Running the same drafting task 5× and taking the best is which pattern?",["Routing","Orchestrator–workers","Parallelization (voting)","Prompt chaining"],2,"Voting = run the same task multiple times for confidence/diversity. Routing sends different inputs to different prompts."],
+ ["D1","Subagents keep duplicating work and drifting. Root cause?",["Model too small","They share one context window","Vague delegation (no clear objective/scope/format)","Caching disabled"],2,"#1 multi-agent failure is vague delegation. Subagents actually have separate windows — that's the point."],
+ ["D1","When is multi-agent's ~15× token cost justified?",["A linear, shared-state task","A broad, open-ended, parallelizable task","Simple classification","Any time you want it faster"],1,"Multi-agent earns its cost on broad parallel exploration; it's wrong for sequential/shared-state work."],
+ ["D1","An agent loops forever on hard inputs. What's missing?",["A system prompt","Stop conditions (max iters/budget/done)","Few-shot examples","Prompt caching"],1,"Always cap iterations/budget or give an explicit completion signal."],
+ ["D1","Guarantee an agent never writes outside a sandbox dir. Best?",["Ask nicely in the system prompt","A few-shot example","A deterministic hook/permission rule that blocks it","Lower temperature"],2,"Hard requirements need deterministic enforcement, not prompts (hooks-vs-prompts rule)."],
+ ["D1","How should worker results return to the lead agent?",["Raw full dumps into the lead's context","Condensed structured summaries","Not at all","A single token 'done'"],1,"Condensed summaries keep the orchestrator's context clean; raw dumps blow up context."],
+ ["D1","Long-running agent loses progress on context reset. Fix?",["Bigger model","External state + just-in-time reload + session resumption","Higher temperature","More tools"],1,"Persist state outside the window and support resumption."],
+ ["D1","The agentic loop's three capabilities?",["Encode, store, retrieve","Gather context, take action, verify work","Plan, prompt, print","Route, cache, stream"],1,"Gather/act/verify, repeating until done — the Agent SDK framing."],
+ // D2
+ ["D2","Most robust way to get strict schema-valid JSON?",["Ask politely for JSON","A tool whose input_schema = output schema, forced","temperature 0","'Return only JSON' at the end"],1,"Forced tool call returns schema-matching arguments — most reliable. Still validate + repair."],
+ ["D2","Outputs inconsistent — what to try FIRST on the ladder?",["Fine-tune","Multi-agent","Make the prompt clearer/more direct/detailed","Add chain-of-thought"],2,"Clarity is the first rung; fine-tuning and multi-agent are heavy last resorts."],
+ ["D2","All your few-shot examples end with 'approved'. Risk?",["Cost only","The model learns a bias toward 'approved'","Nothing","Examples are ignored"],1,"Non-diverse examples induce bias. Keep examples diverse and representative."],
+ ["D2","Best anti-hallucination combo for document Q&A?",["Higher temp + longer outputs","Allow 'not found', answer only from the doc, quote support","Remove the system prompt","Force a tool call"],1,"Give an out, ground in the document, quote/cite. Higher temperature worsens it."],
+ ["D2","Where do durable role/policy instructions live, and why help caching?",["Each user message; no caching effect","System prompt; a stable prefix maximizes cache hits","Tool results","Assistant prefill"],1,"System prompt holds durable rules and keeps the cacheable prefix stable."],
+ ["D2","Force Claude to start with '{' and skip preamble. Best?",["Stop sequence","Prefill the assistant turn with '{'","Raise max_tokens","Add another example"],1,"Prefilling controls the start/format. Stop sequences end generation, not the start."],
+ ["D2","When is chain-of-thought the WRONG choice?",["Multi-step math","Simple single-step classification where latency matters","Complex analysis","Logic puzzles"],1,"Skip CoT on simple latency-sensitive tasks; it just adds cost/latency."],
+ ["D2","Why wrap prompt parts in distinct XML tags?",["Zero token cost","Helps the model not confuse instructions vs data","The API requires it","It disables hallucination"],1,"Tags delineate instructions, context, examples, and input."],
+ ["D2","Extended-thinking model on a hard problem — best approach?",["Prescribe each step","Give the goal and room to think","Forbid reasoning","Always prefill the thinking"],1,"Give direction and space; don't micromanage or script internal reasoning."],
+ ["D2","You changed 3 prompt things and it 'seems better'. Problem?",["None","No eval set + multiple changes = can't attribute the effect","Needs emojis","Temperature too low"],1,"Use an eval set and change one variable at a time."],
+ // D3
+ ["D3","Who executes the tool when Claude emits a tool_use block?",["The model runs it internally","Your application (then returns tool_result)","The MCP registry","Anthropic's servers"],1,"Your app executes; the model only emits intent — the security boundary."],
+ ["D3","Agent keeps picking the wrong tool between two similar ones. Fix?",["Raise temperature","Consolidate/clarify tools + say exactly when to use each","Add five more tools","tool_choice: none"],1,"Overlap causes wrong picks; clarify and consolidate."],
+ ["D3","Most common reason a model misuses a well-built function?",["Schema too strict","An under-specified description (the description is a prompt)","Result too small","Name too long"],1,"The description is effectively a prompt; weak ones cause misuse."],
+ ["D3","MCP's three core primitives?",["Tools, Resources, Prompts","Hosts, Clients, Servers","Tools, Memory, Cache","Read, Write, Execute"],0,"Tools, Resources, Prompts. (Hosts/clients/servers are the architecture.)"],
+ ["D3","Which MCP primitive is model-controlled?",["Resources","Prompts","Tools","Roots"],2,"Tools are model-controlled; Resources app-controlled; Prompts user-controlled."],
+ ["D3","A user-invoked reusable template (slash command) is which primitive?",["Tool","Resource","Prompt","Sampling"],2,"User-controlled reusable templates = the Prompt primitive."],
+ ["D3","Why MCP over hardcoded tools for a reused DB integration?",["Always cheaper","Write once, reuse across any MCP host","Removes the need for auth","Eliminates hallucination"],1,"MCP's value is interoperability/reuse and separation of concerns."],
+ ["D3","Define host vs client vs server.",["Host=your server; client=DB; server=model","Host=the AI app; client=1:1 connector in host; server=exposes tools/resources/prompts","They're interchangeable","Host=Anthropic; client=you; server=user"],1,"Host = the AI app; client = connector inside it; server = capability provider."],
+ ["D3","A tool returns a 50KB blob each call and the agent degrades. Best practice?",["Return only needed data; paginate; hand back IDs","Always return everything","Increase max_tokens","Disable caching"],0,"Concise results conserve context and keep the agent reliable."],
+ ["D3","Two security practices for a remote MCP server?",["Trust all inputs; expose secrets","Require auth; validate/scope inputs (roots; untrusted inputs)","Run as root, no logging","Disable TLS for latency"],1,"Auth + input validation/scoping; never expose secrets."],
+ // D4
+ ["D4","'Context engineering' is best described as:",["One clever instruction line","Curating the whole token set for relevance and timing","Increasing the window size","Fine-tuning the model"],1,"It's curation of the entire context for relevance and form."],
+ ["D4","Adding lots of marginally-relevant text tends to:",["Always improve answers","Degrade performance via attention dilution (context rot)","Have no effect","Reduce cost"],1,"More is not better; irrelevant tokens dilute attention."],
+ ["D4","For a prompt-cache hit, the prefix must be:",["Variable first, static last","Static first (system/tools/fixed), identical, variable last","Any order","User-only"],1,"Static-first, byte-identical prefix, variable content last."],
+ ["D4","Prompt caching is MOST clearly worth it when:",["Every request has a different prompt","A large stable prefix is reused across many calls","You make one call","Outputs must be deterministic"],1,"Reuse of a big stable prefix (agent loops, doc Q&A) is the win."],
+ ["D4","Prompt caching cost model?",["Reads cost more than writes","Writes slightly more than normal; reads much cheaper","Both free","Doubles total cost"],1,"Writes a bit pricier, reads much cheaper and faster."],
+ ["D4","Chat exceeds the window mid-session. Best handling?",["Crash","Compact/summarize older turns + external memory","Drop the system prompt","Switch to a smaller model"],1,"Summarize old turns (keep decisions/open tasks) and offload state."],
+ ["D4","Huge, latency-insensitive extraction job. Two best cost levers?",["High temp + streaming","Batches API + caching the fixed prefix","Multi-agent + bigger model","More examples + Opus everywhere"],1,"Batch for the discount; cache the stable instruction/schema prefix."],
+ ["D4","Handling rate limits / transient API errors?",["Immediate infinite retries","Exponential backoff + idempotency on side effects","Ignore and continue","Set max_tokens to 1"],1,"Backoff + idempotency; infinite immediate retries worsen limits."],
+ ["D4","Consistency where correctness > cost. Which two help most?",["Raise temp; single sample","Lower temp; self-consistency (sample N, majority)","Remove validation","Disable system prompt"],1,"Low temperature plus majority-vote self-consistency."],
+ ["D4","Biggest reliability risk in a RAG system?",["Using XML tags","Poor retrieval (garbage in/out) — invest in retrieval + grounding","Caching the system prompt","Streaming"],1,"RAG quality is bounded by retrieval quality and grounding."],
+ // D5
+ ["D5","Which Claude Code config file is committed and shared with the team?",["~/.claude/settings.json","Project .claude/settings.json","settings.local.json","None should be committed"],1,"Project settings.json is the shared committed config; local is gitignored."],
+ ["D5","What is CLAUDE.md for?",["Storing secrets","Persistent auto-loaded project/user context","Defining MCP transports","A changelog"],1,"Persistent context (conventions, architecture, commands). Never secrets."],
+ ["D5","Guarantee the linter runs after EVERY edit. Best?",["Ask in CLAUDE.md","A PostToolUse hook running the linter","A few-shot example","A slash command you hope to remember"],1,"Hard 'always' requirement → deterministic PostToolUse hook."],
+ ["D5","Which hook event can BLOCK an action before it happens?",["PostToolUse","Stop","PreToolUse","SessionStart"],2,"PreToolUse can deny a tool call before it runs."],
+ ["D5","Three things a subagent gets that isolate it?",["Own billing, region, key","Own context window, system prompt, restricted toolset","Bigger model, more tokens, admin","Nothing; shares everything"],1,"Isolation = own window + own system prompt + restricted tools."],
+ ["D5","An Agent Skill consists of:",["A binary plugin only","A SKILL.md folder (instructions+metadata) + optional scripts, auto-applied when relevant","A single JSON config","A Docker image"],1,"SKILL.md folder, progressively loaded when the task matches."],
+ ["D5","Headless Claude Code in CI with no human. What's mandatory?",["Full unrestricted permissions","Least-privilege permissions + enforcement hooks + logging","Disable all tools","Run only on main"],1,"No approver → least privilege + hooks + logging are required."],
+ ["D5","MCP prompts from a connected server typically surface as:",["Background daemons","Slash commands the user can invoke","Environment variables","Git hooks"],1,"MCP prompts appear as slash commands; resources as loadable context."],
+ ["D5","Highest-authority Claude Code config layer?",["Local project","Enterprise/managed policy","User global","Random"],1,"Enterprise/managed policy can't be overridden by users."],
+ ["D5","Why keep CLAUDE.md concise?",["GitHub size limits","It's context — bloat wastes the model's limited attention","Markdown can't be long","It speeds up git"],1,"It loads into context; lean memory preserves attention."]
+];
+
+const $=id=>document.getElementById(id);
+let pool=[], i=0, score=0, answered=false, missed=[];
+
+function start(){
+  const mode=$("modeSel").value;
+  pool = (mode==="mix"? Q.slice() : Q.filter(q=>q[0]===mode));
+  for(let k=pool.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[pool[k],pool[j]]=[pool[j],pool[k]];}
+  i=0;score=0;missed=[];render();
+}
+
+function render(){
+  if(i>=pool.length){return results();}
+  answered=false;
+  const [d,q,o,c,w]=pool[i];
+  $("counter").textContent=(i+1)+" / "+pool.length;
+  $("pbar").style.width=((i)/pool.length*100)+"%";
+  let html='<div class="qcard"><div class="tag">'+d+'</div><div class="q">'+q+'</div>';
+  o.forEach((opt,k)=>{ html+='<button class="opt" data-k="'+k+'">'+String.fromCharCode(65+k)+'. '+opt+'</button>'; });
+  html+='<div class="why" id="why"></div>';
+  html+='<div class="nav"><span class="score">Score: '+score+'</span><button id="nextBtn" style="display:none">Next →</button></div></div>';
+  $("stage").innerHTML=html;
+  document.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>choose(parseInt(b.dataset.k))));
+  $("nextBtn").addEventListener("click",()=>{i++;render();});
+}
+
+function choose(k){
+  if(answered)return; answered=true;
+  const [d,q,o,c,w]=pool[i];
+  const btns=document.querySelectorAll(".opt");
+  btns.forEach((b,idx)=>{b.disabled=true; if(idx===c)b.classList.add("correct"); if(idx===k&&k!==c)b.classList.add("wrong");});
+  if(k===c){score++;} else {missed.push([d,q]);}
+  const why=$("why"); why.innerHTML="<b>"+(k===c?"✓ Correct.":"✗ Not quite.")+"</b> "+w; why.classList.add("show");
+  $("nextBtn").style.display="inline-block";
+  $("nextBtn").focus();
+}
+
+function results(){
+  $("pbar").style.width="100%"; $("counter").textContent="done";
+  const pct=Math.round(score/pool.length*100);
+  let msg = pct>=80?"Strong — exam-ready on this set.":pct>=65?"Decent. Re-study the misses and retry.":"Keep going — review the domain notes for your weak areas.";
+  let html='<div class="qcard result"><div class="big">'+score+' / '+pool.length+'</div><div class="small">'+pct+'% · '+msg+'</div>';
+  if(missed.length){ html+='<div style="text-align:left;margin-top:18px"><b>Review these:</b><ul>';
+    missed.forEach(m=>html+='<li class="small">['+m[0]+'] '+m[1]+'</li>'); html+='</ul></div>'; }
+  html+='<button id="againBtn" style="margin-top:14px">↺ Try again</button></div>';
+  $("stage").innerHTML=html;
+  $("againBtn").addEventListener("click",start);
+}
+
+$("startBtn").addEventListener("click",start);
+$("modeSel").addEventListener("change",start);
+start();
+</script>
+</body>
+</html>

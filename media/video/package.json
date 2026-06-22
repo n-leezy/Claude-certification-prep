@@ -1,0 +1,23 @@
+{
+  "name": "ccaf-video-lessons",
+  "version": "1.0.0",
+  "description": "Animated narrated lesson videos for the CCA-F prep kit (Remotion).",
+  "license": "MIT",
+  "scripts": {
+    "start": "remotion studio",
+    "render:agentic": "remotion render AgenticArchitecture out/agentic-architecture.mp4",
+    "render:prompt": "remotion render PromptEngineering out/prompt-engineering.mp4",
+    "render:all": "npm run render:agentic && npm run render:prompt"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.481",
+    "@remotion/media-utils": "4.0.481",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.481"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.1",
+    "typescript": "5.4.5"
+  }
+}

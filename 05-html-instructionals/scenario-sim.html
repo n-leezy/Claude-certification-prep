@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CCA-F Scenario Simulator</title>
+<style>
+  :root{--bg:#0f1115;--panel:#181b22;--panel2:#21252e;--ink:#e8eaed;--muted:#9aa3af;
+    --accent:#d97757;--accent2:#6ea8fe;--good:#4ade80;--bad:#f87171;--line:#2c313c;--radius:14px}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:24px}
+  .wrap{max-width:780px;margin:0 auto}
+  h1{font-size:1.5rem;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:.9rem;margin-bottom:18px}
+  .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:8px}
+  .scn{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;cursor:pointer;transition:border-color .15s,transform .08s}
+  .scn:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .scn .ico{font-size:1.6rem}.scn h3{margin:8px 0 4px;font-size:.98rem}.scn p{margin:0;font-size:.8rem;color:var(--muted)}
+  .stage{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-top:6px}
+  .ctx{background:var(--panel2);border-left:3px solid var(--accent2);border-radius:8px;padding:12px 14px;font-size:.9rem;margin-bottom:16px}
+  .step{font-size:.75rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+  .q{font-weight:600;font-size:1.1rem;margin-bottom:14px}
+  .opt{display:block;width:100%;text-align:left;background:var(--panel2);border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:9px;cursor:pointer;color:var(--ink);font:inherit}
+  .opt:hover{border-color:var(--accent2)}
+  .opt.correct{border-color:var(--good);background:rgba(74,222,128,.12)}
+  .opt.wrong{border-color:var(--bad);background:rgba(248,113,113,.12)}
+  .fb{margin-top:8px;padding:12px 14px;border-radius:8px;background:var(--panel2);font-size:.92rem;display:none}
+  .fb.show{display:block}
+  .fb.good{border-left:3px solid var(--good)}.fb.bad{border-left:3px solid var(--bad)}
+  button.nav{font:inherit;color:#0f1115;background:var(--accent);border:none;border-radius:10px;padding:11px 20px;cursor:pointer;font-weight:600;margin-top:14px}
+  .bar{height:6px;background:var(--panel2);border-radius:999px;overflow:hidden;margin:10px 0 18px}
+  .bar>div{height:100%;background:var(--accent);width:0;transition:width .3s}
+  .scoreline{font-size:.85rem;color:var(--muted)}
+  a{color:var(--accent2)} .small{font-size:.8rem;color:var(--muted)}
+  .footnote{margin-top:24px;font-size:.78rem;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+  .badge{display:inline-block;font-size:.7rem;border:1px solid var(--line);border-radius:999px;padding:2px 8px;color:var(--muted);margin-left:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Scenario Simulator <span class="badge">design-the-system drills</span></h1>
+  <div class="sub">Step through realistic enterprise builds and make the architecture calls — exactly the way the exam reportedly frames its scenarios. Pick a scenario. <em>Unofficial prep.</em></div>
+
+  <div id="home"></div>
+  <div id="play" style="display:none">
+    <div class="bar"><div id="pbar"></div></div>
+    <div class="stage" id="stage"></div>
+  </div>
+
+  <div class="footnote">
+    Reported exam scenario archetypes (<span class="small">COMMUNITY</span>): a customer-support resolution agent, a multi-agent research system,
+    Claude Code in CI/CD, and structured data extraction. More in <a href="../04-practice-exams/practice-exam-1.md">the practice exams</a> ·
+    back to <a href="index.html">study hub</a>.
+  </div>
+</div>
+
+<script>
+const SCENARIOS = [
+ {id:"support", icon:"🎧", title:"Customer-support resolution agent",
+  blurb:"Design a production support agent for a SaaS company.",
+  context:"A SaaS company wants an agent that resolves Tier-1 support tickets: answer account questions, issue refunds within policy, and escalate the rest. High volume, cost-sensitive, must never leak data or refund beyond limits.",
+  steps:[
+   {q:"The flow (classify → answer / refund / escalate) is well understood. Single autonomous agent, or a structured design?",
+    opts:[["A workflow with routing to specialized handlers, tools for the open-ended parts","correct"],
+          ["One fully autonomous agent with all tools and broad latitude","wrong"],
+          ["A multi-agent swarm, one agent per ticket type","wrong"]],
+    why:["✓ Right. The control flow is largely known → route to specialized handlers and only use agentic latitude where needed. Simplest thing that works; predictable and cheap.",
+         "Full autonomy adds cost, latency, and risk for a flow you can already specify.",
+         "Multi-agent is overkill for independent, mostly-sequential tickets — pure coordination overhead."]},
+   {q:"Refunds must NEVER exceed the policy cap. How do you enforce it?",
+    opts:[["A deterministic check/guardrail in code (and human approval above a threshold)","correct"],
+          ["A clear instruction in the system prompt asking it to respect the cap","wrong"],
+          ["A few-shot example showing a capped refund","wrong"]],
+    why:["✓ Right. A hard money rule must be enforced deterministically, with human-in-the-loop for high-value cases — never left to the model's discretion.",
+         "Prompts are soft guidance; a violation here is unacceptable, so code must enforce it.",
+         "Examples nudge behavior but don't guarantee it."]},
+   {q:"To control cost at high volume, your best lever is:",
+    opts:[["Route easy queries to a small/fast model; cache the stable system+tools prefix","correct"],
+          ["Use the largest model for every ticket for safety","wrong"],
+          ["Raise temperature to finish faster","wrong"]],
+    why:["✓ Right. Model routing + prompt caching of the stable prefix are the canonical cost levers for high-volume agents.",
+         "Big-model-everywhere needlessly multiplies cost.",
+         "Temperature doesn't affect speed/cost and hurts consistency."]},
+   {q:"For the refund tool, the most important design detail is:",
+    opts:[["A precise typed input_schema + a description stating limits/when-to-use, returning a concise result","correct"],
+          ["A terse name like 'rf' to save tokens","wrong"],
+          ["Returning the entire customer record on every call","wrong"]],
+    why:["✓ Right. Typed schema + a rich description (the description is a prompt) + concise results = reliable tool use.",
+         "Cryptic names cause misuse; clarity matters more than a few tokens.",
+         "Dumping huge payloads burns context and degrades the agent."]},
+  ]},
+ {id:"research", icon:"🔬", title:"Multi-agent research system",
+  blurb:"Build a system that researches broad questions deeply.",
+  context:"You need a system that answers broad, open-ended research questions by exploring many sources and directions, then writing a synthesized report with citations.",
+  steps:[
+   {q:"Single agent or multi-agent here?",
+    opts:[["Multi-agent: a lead orchestrator + subagents exploring directions in parallel","correct"],
+          ["Single agent doing everything sequentially in one context","wrong"],
+          ["A fixed prompt chain with no agency","wrong"]],
+    why:["✓ Right. Broad, open-ended, parallelizable work is exactly where multi-agent earns its (large) token cost — parallel exploration in isolated contexts, then synthesis.",
+         "One context window can't explore many directions well and will run out of room.",
+         "A rigid chain can't adapt to where the research leads."]},
+   {q:"How do you brief each subagent?",
+    opts:[["A specific objective, scope boundaries, tools, and required output format","correct"],
+          ["'Go research the topic and report back'","wrong"],
+          ["The full conversation history, verbatim, with no task","wrong"]],
+    why:["✓ Right. Specific delegation prevents the #1 failure: subagents duplicating work or drifting.",
+         "Vague briefs are the classic multi-agent failure mode.",
+         "Dumping history without a task wastes context and gives no direction."]},
+   {q:"Subagents return their findings as:",
+    opts:[["Condensed, structured summaries with citations","correct"],
+          ["Their entire raw context and every tool result","wrong"],
+          ["A single word: 'done'","wrong"]],
+    why:["✓ Right. Condensed summaries keep the orchestrator's context clean for synthesis.",
+         "Raw dumps blow up the lead's context window.",
+         "Too little — the lead can't synthesize from nothing."]},
+   {q:"The run is long and risks hitting context limits. Best practice?",
+    opts:[["Isolated subagent windows + compaction + external memory for state","correct"],
+          ["Just use a model with a bigger window and ignore the issue","wrong"],
+          ["Restart from scratch whenever it fills up","wrong"]],
+    why:["✓ Right. Context isolation, compaction/summarization, and external state are how long multi-agent runs stay within limits.",
+         "A bigger window delays but doesn't solve context rot or unbounded growth.",
+         "Restarting loses all progress — persist state instead."]},
+  ]},
+ {id:"ci", icon:"⚙️", title:"Claude Code in CI/CD",
+  blurb:"Put Claude Code into an automated pipeline.",
+  context:"You want Claude Code to auto-review pull requests and apply small fixes in CI — no human present at runtime. It must not touch protected paths and must never merge on its own.",
+  steps:[
+   {q:"Since there's no human to approve actions at runtime, you must:",
+    opts:[["Configure least-privilege permissions + enforcement hooks + logging","correct"],
+          ["Grant full permissions so it never gets blocked","wrong"],
+          ["Disable all tools to be safe","wrong"]],
+    why:["✓ Right. Headless/CI has no approver, so guardrails are mandatory: least privilege, hooks, and logs.",
+         "Full permissions in an unattended agent is exactly the risk you must avoid.",
+         "Disabling all tools means it can't do the job."]},
+   {q:"Protect specific paths from edits. Mechanism?",
+    opts:[["A PreToolUse hook that denies edits to protected paths","correct"],
+          ["A note in CLAUDE.md asking it to avoid those paths","wrong"],
+          ["Hope it doesn't touch them","wrong"]],
+    why:["✓ Right. PreToolUse hooks can block actions deterministically — the way to guarantee a boundary.",
+         "CLAUDE.md is soft memory, not a hard guarantee.",
+         "Hope is not a control."]},
+   {q:"Enforce that tests pass before any commit. Best approach?",
+    opts:[["A hook that gates the commit on a passing test run","correct"],
+          ["Ask the model in the prompt to remember to run tests","wrong"],
+          ["Add an example of running tests","wrong"]],
+    why:["✓ Right. A hard 'must happen' gate belongs in a deterministic hook.",
+         "Prompts don't guarantee it.",
+         "Examples don't guarantee it either."]},
+   {q:"Project-wide settings the whole team shares should live in:",
+    opts:[[".claude/settings.json (committed)","correct"],
+          [".claude/settings.local.json (gitignored personal file)","wrong"],
+          ["Each developer's ~/.claude only","wrong"]],
+    why:["✓ Right. Project settings.json is the shared, committed team config.",
+         "settings.local.json is personal and gitignored — not shared.",
+         "User-global config doesn't standardize the project for the team."]},
+  ]},
+];
+
+const $=id=>document.getElementById(id);
+let cur=null, step=0, score=0;
+
+function home(){
+  $("play").style.display="none"; $("home").style.display="block";
+  let h='<div class="cards">';
+  SCENARIOS.forEach(s=>h+=`<div class="scn" data-id="${s.id}"><div class="ico">${s.icon}</div><h3>${s.title}</h3><p>${s.blurb}</p></div>`);
+  h+='</div>';
+  $("home").innerHTML=h;
+  document.querySelectorAll(".scn").forEach(c=>c.addEventListener("click",()=>start(c.dataset.id)));
+}
+function start(id){
+  cur=SCENARIOS.find(s=>s.id===id); step=0; score=0;
+  $("home").style.display="none"; $("play").style.display="block";
+  render();
+}
+function render(){
+  $("pbar").style.width=(step/cur.steps.length*100)+"%";
+  if(step>=cur.steps.length) return done();
+  const st=cur.steps[step];
+  let h=`<div class="ctx"><b>${cur.icon} ${cur.title}</b><br>${cur.context}</div>`;
+  h+=`<div class="step">Decision ${step+1} of ${cur.steps.length}</div><div class="q">${st.q}</div>`;
+  st.opts.forEach((o,k)=>h+=`<button class="opt" data-k="${k}">${o[0]}</button>`);
+  h+=`<div class="fb" id="fb"></div><div id="navwrap"></div>`;
+  $("stage").innerHTML=h;
+  document.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>choose(parseInt(b.dataset.k))));
+}
+let answered=false;
+function choose(k){
+  if(answered)return; answered=true;
+  const st=cur.steps[step]; const correct=st.opts.findIndex(o=>o[1]==="correct");
+  document.querySelectorAll(".opt").forEach((b,i)=>{b.disabled=true;
+    if(i===correct)b.classList.add("correct"); if(i===k&&k!==correct)b.classList.add("wrong");});
+  const good=(k===correct); if(good)score++;
+  const fb=$("fb"); fb.className="fb show "+(good?"good":"bad"); fb.innerHTML=st.why[k];
+  $("navwrap").innerHTML=`<button class="nav" id="nextBtn">${step+1<cur.steps.length?"Next decision →":"See results →"}</button>`;
+  $("nextBtn").addEventListener("click",()=>{step++;answered=false;render();});
+}
+function done(){
+  const pct=Math.round(score/cur.steps.length*100);
+  const msg=pct>=75?"Solid architecture instincts.":"Review the domain notes for the calls you missed.";
+  $("stage").innerHTML=`<div style="text-align:center;padding:20px">
+    <div style="font-size:2.6rem;font-weight:700">${score} / ${cur.steps.length}</div>
+    <div class="scoreline">${pct}% · ${msg}</div>
+    <button class="nav" id="again">↺ Pick another scenario</button></div>`;
+  $("again").addEventListener("click",home);
+}
+home();
+</script>
+</body>
+</html>

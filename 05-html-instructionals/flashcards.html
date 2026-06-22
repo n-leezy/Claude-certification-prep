@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CCA-F Flashcards — Spaced Repetition</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#181b22; --panel2:#21252e; --ink:#e8eaed; --muted:#9aa3af;
+    --accent:#d97757; --accent2:#6ea8fe; --good:#4ade80; --bad:#f87171; --line:#2c313c;
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       background:var(--bg);color:var(--ink);line-height:1.5;padding:24px}
+  .wrap{max-width:760px;margin:0 auto}
+  h1{font-size:1.5rem;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:.9rem;margin-bottom:20px}
+  .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px}
+  select,button{font:inherit;color:var(--ink);background:var(--panel2);border:1px solid var(--line);
+       border-radius:10px;padding:8px 14px;cursor:pointer}
+  button:hover{border-color:var(--accent)}
+  .pill{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.8rem;color:var(--muted)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+       padding:32px 28px;min-height:230px;display:flex;flex-direction:column;justify-content:center;
+       text-align:center;cursor:pointer;position:relative;transition:transform .08s}
+  .card:active{transform:scale(.997)}
+  .tag{position:absolute;top:14px;left:16px;font-size:.7rem;letter-spacing:.08em;color:var(--accent);
+       text-transform:uppercase}
+  .box{position:absolute;top:14px;right:16px;font-size:.7rem;color:var(--muted)}
+  .q{font-size:1.3rem;font-weight:600}
+  .a{font-size:1.1rem;color:var(--ink)}
+  .hint{color:var(--muted);font-size:.8rem;margin-top:18px}
+  .actions{display:flex;gap:12px;margin-top:16px}
+  .actions button{flex:1;padding:14px;font-weight:600;border-width:1.5px}
+  .miss{border-color:var(--bad)} .miss:hover{background:rgba(248,113,113,.12)}
+  .got{border-color:var(--good)} .got:hover{background:rgba(74,222,128,.12)}
+  .label{color:var(--muted)}
+  .stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .stat{flex:1;min-width:90px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+  .stat b{display:block;font-size:1.4rem}
+  .done{text-align:center;padding:40px 10px}
+  .small{font-size:.8rem;color:var(--muted)}
+  a{color:var(--accent2)}
+  .footnote{margin-top:24px;font-size:.78rem;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+  .legend{font-size:.75rem;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>CCA-F Flashcards <span class="label" style="font-size:.9rem">· spaced repetition</span></h1>
+  <div class="sub">Leitner system — cards you miss come back fast; cards you know get spaced out. Progress saves in your browser. <em>Unofficial prep · facts tagged [OFFICIAL]/[COMMUNITY].</em></div>
+
+  <div class="bar">
+    <span class="label small">Deck:</span>
+    <select id="domainSel">
+      <option value="due">⏰ Due today (all)</option>
+      <option value="all">All cards</option>
+      <option value="General">General / exam facts</option>
+      <option value="D1">D1 · Agentic Architecture</option>
+      <option value="D2">D2 · Prompt Engineering</option>
+      <option value="D3">D3 · Tools & MCP</option>
+      <option value="D4">D4 · Context & Reliability</option>
+      <option value="D5">D5 · Claude Code</option>
+    </select>
+    <button id="shuffleBtn">↺ Restart deck</button>
+    <button id="resetBtn" title="Clear all spaced-repetition progress">⚠ Reset progress</button>
+    <span class="pill" id="counter">—</span>
+  </div>
+
+  <div class="card" id="card" tabindex="0">
+    <span class="tag" id="tag"></span>
+    <span class="box" id="boxlbl"></span>
+    <div class="q" id="front">Loading…</div>
+    <div class="a" id="back" style="display:none"></div>
+    <div class="hint" id="hint">Click / tap / press Space to flip</div>
+  </div>
+
+  <div class="actions" id="rateRow" style="display:none">
+    <button class="miss" id="missBtn">✗ Missed &nbsp;<span class="small">(box 1)</span></button>
+    <button class="got" id="gotBtn">✓ Got it &nbsp;<span class="small">(promote)</span></button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b id="sDue">0</b><span class="small">due now</span></div>
+    <div class="stat"><b id="sLearn">0</b><span class="small">still learning (box 1–2)</span></div>
+    <div class="stat"><b id="sKnown">0</b><span class="small">mastered (box 4–5)</span></div>
+    <div class="stat"><b id="sTotal">0</b><span class="small">total cards</span></div>
+  </div>
+  <div class="legend">Boxes &amp; review intervals: <b>1</b>=now · <b>2</b>=1 day · <b>3</b>=3 days · <b>4</b>=7 days · <b>5</b>=16 days. "Missed" sends a card back to box 1.</div>
+
+  <div class="footnote">
+    Study tip: do <b>Due today</b> first each session (active recall + spacing), then learn a new domain.
+    See <a href="index.html">the study hub</a> · <a href="quiz.html">quiz engine</a>.
+    To study on your phone or in Anki, import <span class="small">06-flashcards/flashcards.csv</span>.
+  </div>
+</div>
+
+<script>
+/* ---- Card data (mirrors 06-flashcards/flashcards.csv) ---- */
+const CARDS = [
+ ["General","What certification does this kit prepare you for?","Claude Certified Architect – Foundations (CCA-F), Anthropic's first official Claude technical certification [OFFICIAL]"],
+ ["General","Who is the CCA-F aimed at?","Solution architects building production applications with Claude [OFFICIAL]"],
+ ["General","What platform delivers the CCA-F exam?","Anthropic Academy on Skilljar [OFFICIAL]"],
+ ["General","How do you get exam access at launch?","Join the free Claude Partner Network, then request access via Skilljar [OFFICIAL]"],
+ ["General","Reported exam format?","~60 scenario-based multiple-choice questions, 120 minutes [COMMUNITY]"],
+ ["General","Reported passing score?","~720 on a scaled 100–1000 scale [COMMUNITY]"],
+ ["General","Reported cost per attempt?","~$99 (waived for first 5,000 partner employees) [COMMUNITY]"],
+ ["General","The five reported exam domains?","Agentic Architecture; Prompt Engineering; Tool Design & MCP; Context & Reliability; Claude Code [COMMUNITY]"],
+ ["D1","Difference between a workflow and an agent?","Workflow = predefined code paths; agent = LLM dynamically directs its own process in a loop"],
+ ["D1","The guiding design principle for agents?","Use the simplest solution that works; add complexity only when it clearly improves outcomes"],
+ ["D1","When do you need an agent rather than a workflow?","When the path can't be predicted and the model must adapt its own steps"],
+ ["D1","Name the five workflow patterns.","Prompt chaining, routing, parallelization, orchestrator–workers, evaluator–optimizer"],
+ ["D1","What is the routing pattern best for?","Distinct input categories handled better by specialized prompts/models"],
+ ["D1","Two flavors of parallelization?","Sectioning (independent subtasks) and voting (same task multiple times)"],
+ ["D1","How do orchestrator–workers differ from parallelization?","The orchestrator dynamically decides the subtasks; parallelization uses predefined ones"],
+ ["D1","When is evaluator–optimizer a good fit?","Clear eval criteria exist and iteration measurably improves the output"],
+ ["D1","The three capabilities of the agentic loop?","Gather context, take action, verify work (repeat until done)"],
+ ["D1","Why must agents have stop conditions?","Without max iterations/budget/explicit done, they can loop forever or burn budget"],
+ ["D1","Default: single-agent or multi-agent?","Single agent with good tools; multi-agent only for parallel breadth or separation of concerns"],
+ ["D1","When is multi-agent worth ~15x the tokens?","Broad, open-ended, parallelizable tasks (e.g., research across many directions)"],
+ ["D1","#1 failure mode of subagent delegation?","Vague delegation — subagents need a specific objective, scope, tools, and output format"],
+ ["D1","How should worker results return to the orchestrator?","As condensed, structured summaries (not raw dumps)"],
+ ["D1","How does a long-running agent survive a context reset?","Persist state externally + reload just-in-time; support session resumption"],
+ ["D1","Hooks vs prompts rule?","Soft guidance → prompt; hard requirement that must always happen → deterministic hook/code"],
+ ["D2","First rung of the prompt-engineering ladder?","Be clear, direct, and detailed (treat Claude like a brilliant new hire)"],
+ ["D2","Most powerful lever for matching a format or style?","Few-shot examples (multishot prompting)"],
+ ["D2","Three properties of good few-shot examples?","Relevant, diverse, and clearly delimited"],
+ ["D2","Risk if all examples share the same answer?","The model learns a bias and over-predicts that answer"],
+ ["D2","When should you NOT use chain-of-thought?","Simple single-step tasks where latency/cost matter"],
+ ["D2","How to prompt an extended-thinking model on a hard task?","Give the goal and room to think; don't micromanage steps"],
+ ["D2","Most reliable way to get schema-valid JSON?","A tool whose input_schema is your output schema, forced; then validate"],
+ ["D2","What does prefilling the assistant turn do?","Controls the start/format (e.g., prefill '{' to force JSON, skip preamble)"],
+ ["D2","Why use XML tags in prompts?","To separate instructions, context, examples, and input so the model doesn't confuse them"],
+ ["D2","Where do durable role/policy instructions go?","The system prompt (also maximizes prompt-cache hits)"],
+ ["D2","Three tactics to reduce hallucination in document Q&A?","Allow 'not found', answer only from the document, quote/cite support"],
+ ["D2","How do you know prompt A beats prompt B?","An eval set with graders; change one variable at a time and measure"],
+ ["D3","In the tool-use loop, who executes the tool?","Your application — the model only emits intent; you return a tool_result"],
+ ["D3","Why is the tool description so important?","It functions as a prompt; weak descriptions are the top cause of tool misuse"],
+ ["D3","Four properties of a well-designed tool?","Clear name, rich description, well-typed input_schema, concise useful results"],
+ ["D3","Fix for the model picking the wrong tool between two similar ones?","Consolidate/clarify tools and specify exactly when to use each"],
+ ["D3","What does tool_choice control?","Whether/which tool is used: auto, any, a specific tool, or none"],
+ ["D3","What is MCP in one line?","An open standard for connecting AI apps to external tools/data/prompts — 'USB-C for AI'"],
+ ["D3","MCP's three core primitives?","Tools (model-controlled), Resources (app-controlled), Prompts (user-controlled)"],
+ ["D3","Which MCP primitive is model-controlled?","Tools"],
+ ["D3","Which MCP primitive is user-controlled?","Prompts (often surfaced as slash commands)"],
+ ["D3","Which MCP primitive is application-controlled?","Resources (read-only context loaded by URI)"],
+ ["D3","Define MCP host, client, server.","Host = the AI app; client = 1:1 connector inside the host; server = exposes tools/resources/prompts"],
+ ["D3","Local vs remote MCP transports?","stdio for local; HTTP/SSE for remote"],
+ ["D3","Main reason to use MCP over hardcoded tools?","Write the server once, reuse across any MCP-compatible host"],
+ ["D3","Two security practices for a remote MCP server?","Require auth; validate/scope inputs (untrusted inputs; roots limit filesystem)"],
+ ["D3","Why return IDs instead of huge payloads from a tool?","Concise results conserve context and keep the agent reliable"],
+ ["D4","What is context engineering?","Curating the entire token set so the model has the right info, in the right form, at the right time"],
+ ["D4","What is 'context rot'?","Performance degrading as irrelevant/excess tokens dilute attention"],
+ ["D4","What is just-in-time retrieval?","Fetch information when needed rather than pre-stuffing the window"],
+ ["D4","Where do you place a prompt-cache breakpoint?","After the stable prefix (system, tools, fixed context); variable content last"],
+ ["D4","Why must cached content come first and be identical?","Anything before the breakpoint must be byte-identical to hit"],
+ ["D4","Prompt caching cost model?","Writes cost slightly more than normal tokens; reads are much cheaper and faster"],
+ ["D4","When is prompt caching clearly worth it?","When a large stable prefix is reused across many calls (agent loops, doc Q&A)"],
+ ["D4","Handling a conversation exceeding the window?","Compact/summarize older turns (keep decisions/open tasks) + external memory"],
+ ["D4","Two cost levers for a high-volume, latency-insensitive job?","Message Batches API + prompt caching of the fixed prefix"],
+ ["D4","Best practice for rate-limit/transient API errors?","Retry with exponential backoff; idempotency on side-effecting tools"],
+ ["D4","Two ways to maximize correctness when cost is secondary?","Lower temperature + self-consistency (sample N, majority vote)"],
+ ["D4","Biggest reliability risk in a RAG system?","Poor retrieval — garbage in, garbage out"],
+ ["D4","Sensible model selection strategy?","Small/fast model for routing/classification; strong model for hard reasoning"],
+ ["D5","What is Claude Code?","A terminal-based agentic coding tool running the agentic loop over your codebase; also headless"],
+ ["D5","Which config file is committed and shared with the team?",".claude/settings.json (project scope)"],
+ ["D5","What is .claude/settings.local.json?","Personal, gitignored overrides for the project"],
+ ["D5","Highest-authority Claude Code config layer?","Enterprise/managed policy (can't be overridden by users)"],
+ ["D5","What is CLAUDE.md for?","Persistent project/user context auto-loaded into context (conventions, architecture, commands)"],
+ ["D5","What must never go in CLAUDE.md?","Secrets / API keys"],
+ ["D5","What are Claude Code hooks?","Shell commands that run automatically at lifecycle events for deterministic control"],
+ ["D5","Which hook event can block an action before it runs?","PreToolUse"],
+ ["D5","Common use of a PostToolUse hook?","Auto-run formatter/linter/tests after an edit"],
+ ["D5","Three things a subagent gets that isolate it?","Its own context window, its own system prompt, and a restricted toolset"],
+ ["D5","What is an Agent Skill?","A folder with SKILL.md (instructions + metadata) + optional scripts, auto-applied when relevant"],
+ ["D5","Why Skills over a giant CLAUDE.md for some knowledge?","Progressive disclosure — loaded only when the task matches, saving context"],
+ ["D5","How do MCP prompts appear in Claude Code?","As slash commands the user can invoke"],
+ ["D5","What's mandatory for headless Claude Code in CI?","Least-privilege permissions + enforcement hooks + logging"],
+ ["D5","Where are subagents defined in a project?","Markdown files (e.g., .claude/agents/) with when-to-use descriptions"]
+];
+
+const INTERVALS = {1:0, 2:1, 3:3, 4:7, 5:16}; // days
+const DAY = 86400000;
+const KEY = "ccaf_flash_v1";
+
+let state = load();
+function load(){
+  try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s) return s; }catch(e){}
+  return {}; // id -> {box, due}
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+function idOf(c){ return c[0]+"::"+c[1]; }
+function meta(c){ const id=idOf(c); if(!state[id]) state[id]={box:1,due:0}; return state[id]; }
+function isDue(c){ return meta(c).due <= Date.now(); }
+
+let queue=[], idx=0, flipped=false, mode="due";
+
+const $=id=>document.getElementById(id);
+
+function buildQueue(){
+  let pool = CARDS.slice();
+  if(mode==="due") pool = pool.filter(isDue);
+  else if(mode!=="all") pool = pool.filter(c=>c[0]===mode);
+  // sort: due first, lower box first, then shuffle within
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  pool.sort((a,b)=>meta(a).box-meta(b).box);
+  queue=pool; idx=0; flipped=false;
+  render();
+}
+
+function refreshStats(){
+  let due=0,learn=0,known=0;
+  CARDS.forEach(c=>{const m=meta(c); if(m.due<=Date.now())due++; if(m.box<=2)learn++; if(m.box>=4)known++;});
+  $("sDue").textContent=due; $("sLearn").textContent=learn; $("sKnown").textContent=known; $("sTotal").textContent=CARDS.length;
+}
+
+function render(){
+  refreshStats();
+  if(idx>=queue.length){
+    $("tag").textContent=""; $("boxlbl").textContent="";
+    $("front").innerHTML = queue.length===0
+      ? "🎉 Nothing due in this deck right now.<div class='small' style='margin-top:10px'>Switch decks above, or come back later for spaced review.</div>"
+      : "✅ Deck complete!<div class='small' style='margin-top:10px'>"+queue.length+" cards reviewed. Pick another deck.</div>";
+    $("back").style.display="none"; $("hint").style.display="none"; $("rateRow").style.display="none";
+    $("counter").textContent = queue.length+" in deck";
+    return;
+  }
+  const c=queue[idx], m=meta(c);
+  $("tag").textContent=c[0]; $("boxlbl").textContent="box "+m.box+(m.due<=Date.now()?" · due":"");
+  $("front").textContent=c[1]; $("back").textContent=c[2];
+  $("back").style.display="none"; $("hint").style.display="block"; $("rateRow").style.display="none"; flipped=false;
+  $("counter").textContent=(idx+1)+" / "+queue.length;
+}
+
+function flip(){
+  if(idx>=queue.length) return;
+  flipped=!flipped;
+  $("back").style.display=flipped?"block":"none";
+  $("hint").style.display=flipped?"none":"block";
+  $("rateRow").style.display=flipped?"flex":"none";
+}
+
+function rate(got){
+  const c=queue[idx], m=meta(c);
+  if(got){ m.box=Math.min(5,m.box+1); } else { m.box=1; }
+  m.due = Date.now() + INTERVALS[m.box]*DAY;
+  save();
+  idx++; render();
+}
+
+$("card").addEventListener("click",flip);
+$("gotBtn").addEventListener("click",e=>{e.stopPropagation();rate(true);});
+$("missBtn").addEventListener("click",e=>{e.stopPropagation();rate(false);});
+$("domainSel").addEventListener("change",e=>{mode=e.target.value;buildQueue();});
+$("shuffleBtn").addEventListener("click",buildQueue);
+$("resetBtn").addEventListener("click",()=>{ if(confirm("Clear all spaced-repetition progress?")){state={};save();buildQueue();}});
+document.addEventListener("keydown",e=>{
+  if(e.code==="Space"){e.preventDefault();flip();}
+  else if(flipped && (e.key==="1"||e.key.toLowerCase()==="j")) rate(false);
+  else if(flipped && (e.key==="2"||e.key.toLowerCase()==="k")) rate(true);
+});
+buildQueue();
+</script>
+</body>
+</html>

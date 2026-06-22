@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Certified Architect – Foundations · Study Hub</title>
+<style>
+  :root{--bg:#0f1115;--panel:#181b22;--panel2:#21252e;--ink:#e8eaed;--muted:#9aa3af;
+    --accent:#d97757;--accent2:#6ea8fe;--good:#4ade80;--line:#2c313c;--radius:16px}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(1200px 600px at 70% -10%,#1b2030,#0f1115);color:var(--ink);line-height:1.6}
+  .wrap{max-width:920px;margin:0 auto;padding:32px 24px 64px}
+  header{margin-bottom:8px}
+  .kicker{color:var(--accent);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase}
+  h1{font-size:2rem;margin:6px 0}
+  h2{font-size:1.25rem;margin:34px 0 12px;border-bottom:1px solid var(--line);padding-bottom:8px}
+  h3{margin:18px 0 6px;font-size:1rem}
+  .sub{color:var(--muted)}
+  .disc{background:rgba(217,119,87,.1);border:1px solid rgba(217,119,87,.4);border-radius:12px;padding:12px 16px;font-size:.88rem;margin:16px 0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:8px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px 18px;text-decoration:none;color:var(--ink);display:block;transition:border-color .15s,transform .08s}
+  .card:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .card .ico{font-size:1.5rem}
+  .card h3{margin:8px 0 4px}
+  .card p{margin:0;font-size:.85rem;color:var(--muted)}
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:.92rem}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600}
+  .tag{display:inline-block;font-size:.68rem;padding:2px 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+  .off{color:var(--good);border-color:rgba(74,222,128,.4)}
+  .com{color:var(--accent);border-color:rgba(217,119,87,.4)}
+  ol li,ul li{margin:5px 0}
+  a{color:var(--accent2)}
+  .muted{color:var(--muted);font-size:.85rem}
+  svg{max-width:100%;height:auto;display:block;margin:8px auto;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}
+  .pill{display:inline-block;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:.75rem;color:var(--muted);margin:2px}
+  footer{margin-top:48px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">Community Study Hub · Unofficial</div>
+    <h1>Claude Certified Architect — Foundations</h1>
+    <div class="sub">An evidence-based prep kit. Built to be <em>used actively</em>, not just read.</div>
+  </header>
+
+  <div class="disc">
+    ⚠️ <b>Unofficial.</b> Not affiliated with or endorsed by Anthropic. Facts are tagged
+    <span class="tag off">OFFICIAL</span> (confirmed by Anthropic) or
+    <span class="tag com">COMMUNITY</span> (reported by third parties). Verify against
+    <a href="https://www.anthropic.com/learn" target="_blank" rel="noopener">Anthropic's official pages</a>.
+  </div>
+
+  <h2>Start here</h2>
+  <div class="grid">
+    <a class="card" href="flashcards.html"><div class="ico">🃏</div><h3>Flashcards</h3><p>Spaced-repetition deck (Leitner). Do the "due" pile every session.</p></a>
+    <a class="card" href="quiz.html"><div class="ico">✅</div><h3>Quiz engine</h3><p>Active-recall questions with instant feedback + reasoning. Interleaved or per-domain.</p></a>
+    <a class="card" href="../01-study-guide/how-to-use-this-folder.md"><div class="ico">🧠</div><h3>The method</h3><p>Why this kit tests you instead of letting you re-read. Read this first.</p></a>
+    <a class="card" href="../01-study-guide/study-guide-overview.md"><div class="ico">🗺️</div><h3>Study plan</h3><p>2-week / 4-week / 1-week schedules + readiness checklist.</p></a>
+    <a class="card" href="../04-practice-exams/practice-exam-1.md"><div class="ico">📝</div><h3>Practice exams</h3><p>Two full 60-question, 120-minute simulations with answer keys.</p></a>
+    <a class="card" href="../02-domain-notes/domain-1-agentic-architecture.md"><div class="ico">📚</div><h3>Domain notes</h3><p>Deep notes for all five domains, each with self-tests.</p></a>
+  </div>
+
+  <h2>The exam at a glance</h2>
+  <table>
+    <tr><th>Attribute</th><th>Value</th><th>Source</th></tr>
+    <tr><td>Credential</td><td>Claude Certified Architect – Foundations (CCA-F)</td><td><span class="tag off">OFFICIAL</span></td></tr>
+    <tr><td>For</td><td>Solution architects building production apps with Claude</td><td><span class="tag off">OFFICIAL</span></td></tr>
+    <tr><td>Delivered on</td><td>Anthropic Academy / Skilljar</td><td><span class="tag off">OFFICIAL</span></td></tr>
+    <tr><td>Access</td><td>Via the free Claude Partner Network at launch</td><td><span class="tag off">OFFICIAL</span></td></tr>
+    <tr><td>Format</td><td>~60 scenario-based MCQs · 120 min</td><td><span class="tag com">COMMUNITY</span></td></tr>
+    <tr><td>Passing</td><td>~720 / 1000 (scaled)</td><td><span class="tag com">COMMUNITY</span></td></tr>
+    <tr><td>Cost</td><td>~$99 / attempt (first 5,000 partner staff waived)</td><td><span class="tag com">COMMUNITY</span></td></tr>
+  </table>
+  <p class="muted">Full sourcing in <a href="../01-study-guide/exam-facts.md">exam-facts.md</a>.</p>
+
+  <h2>The five domains</h2>
+  <svg viewBox="0 0 820 360" role="img" aria-label="Five-domain syllabus map">
+    <defs>
+      <style>
+        .t{fill:#e8eaed;font:600 14px -apple-system,Segoe UI,Roboto,sans-serif}
+        .w{fill:#9aa3af;font:11px -apple-system,Segoe UI,Roboto,sans-serif}
+        .c{fill:#21252e;stroke:#2c313c}
+        .hub{fill:#d97757}
+      </style>
+    </defs>
+    <circle cx="410" cy="180" r="62" class="hub"/>
+    <text x="410" y="172" text-anchor="middle" style="fill:#0f1115;font:700 14px sans-serif">CCA-F</text>
+    <text x="410" y="192" text-anchor="middle" style="fill:#0f1115;font:11px sans-serif">5 domains</text>
+    <!-- spokes -->
+    <g stroke="#2c313c" stroke-width="2">
+      <line x1="410" y1="180" x2="160" y2="70"/><line x1="410" y1="180" x2="660" y2="70"/>
+      <line x1="410" y1="180" x2="120" y2="250"/><line x1="410" y1="180" x2="700" y2="250"/>
+      <line x1="410" y1="180" x2="410" y2="320"/>
+    </g>
+    <g>
+      <rect x="40" y="34" width="220" height="60" rx="12" class="c"/><text x="52" y="58" class="t">D1 · Agentic Architecture</text><text x="52" y="78" class="w">~27% · agents vs workflows, orchestration</text>
+      <rect x="560" y="34" width="230" height="60" rx="12" class="c"/><text x="572" y="58" class="t">D2 · Prompt Engineering</text><text x="572" y="78" class="w">~20% · clarity, examples, JSON output</text>
+      <rect x="20" y="220" width="210" height="60" rx="12" class="c"/><text x="32" y="244" class="t">D3 · Tools &amp; MCP</text><text x="32" y="264" class="w">~18% · tool schemas, MCP primitives</text>
+      <rect x="590" y="220" width="210" height="60" rx="12" class="c"/><text x="602" y="244" class="t">D4 · Context &amp; Reliability</text><text x="602" y="264" class="w">~15% · caching, context, robustness</text>
+      <rect x="300" y="300" width="220" height="48" rx="12" class="c"/><text x="312" y="322" class="t">D5 · Claude Code</text><text x="312" y="340" class="w">~20% · settings, hooks, subagents, CI</text>
+    </g>
+  </svg>
+  <p class="muted">Weights are <span class="tag com">COMMUNITY</span>-reported. Cross-cutting theme: <b>use the least complexity that works, enforce hard requirements deterministically, and curate context.</b></p>
+
+  <h2>How to study (the 60-second version)</h2>
+  <ol>
+    <li><b>Retrieve, don't re-read.</b> The quizzes and flashcards <em>are</em> the studying — testing yourself beats re-reading (the testing effect).</li>
+    <li><b>Space it.</b> Run the flashcard "due" pile every session; let the Leitner boxes resurface what you miss.</li>
+    <li><b>Interleave.</b> Mix domains (the quiz "interleaved" mode, the full exams). It feels harder — that's why it works.</li>
+    <li><b>Explain it back.</b> Use each domain note's "teach-it-back" checklist (Feynman).</li>
+    <li><b>Simulate.</b> Take both timed practice exams near the end; remediate every miss.</li>
+  </ol>
+
+  <h2>Official prep to do alongside this</h2>
+  <p>Free on <a href="https://anthropic.skilljar.com/" target="_blank" rel="noopener">Anthropic Academy</a> <span class="tag off">OFFICIAL</span>:</p>
+  <div>
+    <span class="pill">Claude 101</span><span class="pill">Claude Platform 101</span><span class="pill">Building with the Claude API</span>
+    <span class="pill">Claude Code 101</span><span class="pill">Claude Code in Action</span><span class="pill">Intro to MCP</span>
+    <span class="pill">MCP: Advanced Topics</span><span class="pill">Intro to Agent Skills</span><span class="pill">Intro to Subagents</span><span class="pill">AI Fluency</span>
+  </div>
+  <p class="muted">Plus the developer docs at <a href="https://platform.claude.com/docs" target="_blank" rel="noopener">platform.claude.com/docs</a>.</p>
+
+  <h2>Multi-modal media</h2>
+  <p class="muted">Same content, different senses — read it, watch it, hear it, draw it, drill it.</p>
+  <div class="grid">
+    <a class="card" href="scenario-sim.html"><div class="ico">🕹️</div><h3>Scenario simulator</h3><p>"Design the system" branching drills for the reported exam scenarios.</p></a>
+    <a class="card" href="../media/audio/podcast-full-overview.mp3"><div class="ico">🎙️</div><h3>Podcast overview</h3><p>~3-min two-voice tour of the whole cert. Per-domain MP3s in media/audio.</p></a>
+    <a class="card" href="../media/cheatsheet/cca-f-cheatsheet.pdf"><div class="ico">📄</div><h3>1-page cheat sheet</h3><p>Everything on a single printable page (PDF).</p></a>
+    <a class="card" href="../media/mindmap/syllabus-mindmap.png"><div class="ico">🧠</div><h3>Mind-map</h3><p>The whole syllabus as a branch map.</p></a>
+    <a class="card" href="../media/anki/cca-foundations.apkg"><div class="ico">🃏</div><h3>Anki deck</h3><p>Import for spaced repetition on any device (.apkg).</p></a>
+    <a class="card" href="../media/video/"><div class="ico">🎬</div><h3>Video lessons</h3><p>Remotion project — render animated narrated lessons (see media/video/README).</p></a>
+  </div>
+
+  <h3 style="margin-top:24px">Concept diagrams</h3>
+  <div class="grid">
+    <a class="card" href="../media/diagrams/agent-orchestration-loop.png"><div class="ico">🔁</div><h3>Agent loop</h3><p>D1 · loop + orchestrator/subagents</p></a>
+    <a class="card" href="../media/diagrams/tool-mcp-flow.png"><div class="ico">🔌</div><h3>Tools &amp; MCP</h3><p>D3 · tool-use loop + MCP architecture</p></a>
+    <a class="card" href="../media/diagrams/context-reliability-model.png"><div class="ico">🪟</div><h3>Context</h3><p>D4 · caching, curation, reliability</p></a>
+    <a class="card" href="../media/diagrams/syllabus-map.png"><div class="ico">🗺️</div><h3>Syllabus map</h3><p>All five domains at a glance</p></a>
+  </div>
+
+  <footer>
+    Unofficial community prep · MIT-licensed · built June 2026. "Claude" and "Claude Certified Architect" are trademarks of Anthropic PBC.
+    Open these files locally — everything works offline. Your flashcard/quiz progress is saved in your browser only.
+  </footer>
+</div>
+</body>
+</html>

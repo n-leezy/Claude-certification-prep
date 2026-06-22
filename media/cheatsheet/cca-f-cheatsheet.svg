@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 794 1123" font-family="Helvetica,Arial,sans-serif">
+<rect x="0" y="0" width="794" height="1123" rx="8" fill="#ffffff" stroke="none"/>
+<rect x="0" y="0" width="794" height="64" rx="0" fill="#d97757" stroke="none"/>
+<text x="28" y="30" font-size="19" font-weight="700" fill="#ffffff" text-anchor="start">Claude Certified Architect — Foundations (CCA-F)</text>
+<text x="28" y="50" font-size="10.5" font-weight="400" fill="#ffe9e0" text-anchor="start">One-page cheat sheet · UNOFFICIAL community prep · verify against anthropic.com</text>
+<rect x="28" y="84" width="738" height="72" rx="8" fill="#f4f1ec" stroke="#d8d2c8"/>
+<text x="40" y="102" font-size="10" font-weight="700" fill="#d97757" text-anchor="start">EXAM SNAPSHOT</text>
+<text x="40" y="120" font-size="8.8" font-weight="400" fill="#1f2430" text-anchor="start">OFFICIAL: CCA-F = Anthropic's 1st Claude cert · for solution architects · on Anthropic Academy/Skilljar · access via free Partner Network</text>
+<text x="40" y="134" font-size="8.8" font-weight="400" fill="#5b6472" text-anchor="start">COMMUNITY (verify): ~60 scenario MCQs · 120 min · scaled 100–1000, pass ~720 · ~$99/attempt · ~2-yr validity</text>
+<text x="40" y="148" font-size="8.8" font-weight="400" fill="#3b6fd4" text-anchor="start">Theme across all domains: least complexity that works · enforce hard rules in code (hooks) · curate context · test yourself to study</text>
+<rect x="28" y="176" width="366" height="196" rx="8" fill="#ffffff" stroke="#d8d2c8"/>
+<rect x="28" y="176" width="366" height="22" rx="8" fill="#d97757" stroke="none"/>
+<rect x="28" y="190" width="366" height="8" rx="0" fill="#d97757" stroke="none"/>
+<text x="38" y="191" font-size="10.5" font-weight="700" fill="#ffffff" text-anchor="start">D1 · Agentic Architecture (~27%)</text>
+<text x="38" y="214" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Workflow = predefined code paths; Agent = LLM</text>
+<text x="47" y="227.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">directs its own loop</text>
+<text x="38" y="241.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Patterns: chaining, routing, parallelization,</text>
+<text x="47" y="254.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">orchestrator-workers, evaluator-optimizer</text>
+<text x="38" y="268.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Agentic loop: gather context &gt; act (tools) &gt; verify</text>
+<text x="47" y="281.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">&gt; repeat; always a STOP condition</text>
+<text x="38" y="295.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Default single-agent; multi-agent only for</text>
+<text x="47" y="308.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">broad/parallel work (~15x tokens)</text>
+<text x="38" y="322.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• #1 multi-agent failure: vague delegation; give</text>
+<text x="47" y="335.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">subagents objective+scope+tools+format</text>
+<text x="38" y="349.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Workers return condensed summaries; persist state</text>
+<text x="47" y="362.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">externally for long runs</text>
+<text x="38" y="376.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Hard requirement? Use a deterministic hook, not a</text>
+<text x="47" y="389.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">prompt line</text>
+<rect x="400" y="176" width="366" height="196" rx="8" fill="#ffffff" stroke="#d8d2c8"/>
+<rect x="400" y="176" width="366" height="22" rx="8" fill="#3b6fd4" stroke="none"/>
+<rect x="400" y="190" width="366" height="8" rx="0" fill="#3b6fd4" stroke="none"/>
+<text x="410" y="191" font-size="10.5" font-weight="700" fill="#ffffff" text-anchor="start">D2 · Prompt Engineering (~20%)</text>
+<text x="410" y="214" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Ladder: clear+direct &gt; examples &gt; chain-of-thought &gt;</text>
+<text x="419" y="227.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">XML tags &gt; role &gt; prefill &gt; chain</text>
+<text x="410" y="241.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Few-shot examples: relevant, diverse, delimited</text>
+<text x="419" y="254.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">(avoid one-answer bias)</text>
+<text x="410" y="268.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Reliable JSON: tool whose input_schema = output</text>
+<text x="419" y="281.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">schema, force it, then validate+repair</text>
+<text x="410" y="295.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Prefill assistant with { to force JSON / skip</text>
+<text x="419" y="308.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">preamble</text>
+<text x="410" y="322.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Cut hallucination: allow 'not found', answer only</text>
+<text x="419" y="335.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">from docs, quote/cite</text>
+<text x="410" y="349.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Durable rules in system prompt (also helps caching)</text>
+<text x="410" y="362.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Evaluate prompts with an eval set; change one</text>
+<text x="419" y="376.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">variable at a time</text>
+<rect x="28" y="384" width="366" height="196" rx="8" fill="#ffffff" stroke="#d8d2c8"/>
+<rect x="28" y="384" width="366" height="22" rx="8" fill="#3a9b6e" stroke="none"/>
+<rect x="28" y="398" width="366" height="8" rx="0" fill="#3a9b6e" stroke="none"/>
+<text x="38" y="399" font-size="10.5" font-weight="700" fill="#ffffff" text-anchor="start">D3 · Tools &amp; MCP (~18%)</text>
+<text x="38" y="422" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Loop: send tool defs &gt; model emits tool_use &gt; YOUR</text>
+<text x="47" y="435.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">app runs it &gt; return tool_result</text>
+<text x="38" y="449.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Your app executes tools (not the model) = the</text>
+<text x="47" y="462.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">security boundary</text>
+<text x="38" y="476.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Good tool: clear name, rich description (=a prompt),</text>
+<text x="47" y="489.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">typed schema, concise results</text>
+<text x="38" y="503.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• MCP = open standard, 'USB-C for AI'. Host &gt; Client</text>
+<text x="47" y="516.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">(1:1) &gt; Server</text>
+<text x="38" y="530.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• 3 primitives: Tools (model), Resources (app),</text>
+<text x="47" y="543.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">Prompts (user)</text>
+<text x="38" y="557.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Use MCP to write once, reuse across hosts;</text>
+<text x="47" y="570.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">local=stdio, remote=HTTP/SSE</text>
+<text x="38" y="584.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Remote server security: require auth, validate/scope</text>
+<text x="47" y="597.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">inputs (roots)</text>
+<rect x="400" y="384" width="366" height="196" rx="8" fill="#ffffff" stroke="#d8d2c8"/>
+<rect x="400" y="384" width="366" height="22" rx="8" fill="#d97757" stroke="none"/>
+<rect x="400" y="398" width="366" height="8" rx="0" fill="#d97757" stroke="none"/>
+<text x="410" y="399" font-size="10.5" font-weight="700" fill="#ffffff" text-anchor="start">D4 · Context &amp; Reliability (~15%)</text>
+<text x="410" y="422" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Context engineering = curate the whole token set;</text>
+<text x="419" y="435.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">window is scarce ('context rot')</text>
+<text x="410" y="449.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Prompt caching: static prefix FIRST, byte-identical,</text>
+<text x="419" y="462.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">variable query LAST</text>
+<text x="410" y="476.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Cache writes slightly pricier; reads much</text>
+<text x="419" y="489.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">cheaper+faster (wins in agent loops)</text>
+<text x="410" y="503.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Long sessions: compact/summarize old turns +</text>
+<text x="419" y="516.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">external memory</text>
+<text x="410" y="530.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Reliability: validate+retry, exponential backoff,</text>
+<text x="419" y="543.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">self-consistency, evals</text>
+<text x="410" y="557.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Cost/latency: Batches API, prompt caching, model</text>
+<text x="419" y="570.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">routing, streaming</text>
+<text x="410" y="584.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• RAG quality is bounded by retrieval quality +</text>
+<text x="419" y="597.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">grounding</text>
+<rect x="28" y="592" width="366" height="196" rx="8" fill="#ffffff" stroke="#d8d2c8"/>
+<rect x="28" y="592" width="366" height="22" rx="8" fill="#3b6fd4" stroke="none"/>
+<rect x="28" y="606" width="366" height="8" rx="0" fill="#3b6fd4" stroke="none"/>
+<text x="38" y="607" font-size="10.5" font-weight="700" fill="#ffffff" text-anchor="start">D5 · Claude Code (~20%)</text>
+<text x="38" y="630" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Terminal agentic coding tool; also runs headless for</text>
+<text x="47" y="643.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">CI/automation</text>
+<text x="38" y="657.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Config layers: enterprise/managed (top) &gt; project</text>
+<text x="47" y="670.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">(committed) &gt; local (gitignored)</text>
+<text x="38" y="684.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• CLAUDE.md = persistent auto-loaded memory; keep</text>
+<text x="47" y="697.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">lean; NEVER secrets</text>
+<text x="38" y="711.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Hooks = deterministic lifecycle commands; PreToolUse</text>
+<text x="47" y="724.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">can BLOCK; PostToolUse auto-lint</text>
+<text x="38" y="738.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Subagents: own context window + system prompt +</text>
+<text x="47" y="751.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">restricted tools</text>
+<text x="38" y="765.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Skills = SKILL.md folder, loaded progressively when</text>
+<text x="47" y="778.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">relevant</text>
+<text x="38" y="792.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Headless CI (no human): least privilege + hooks +</text>
+<text x="47" y="805.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">logging are mandatory</text>
+<rect x="400" y="592" width="366" height="196" rx="8" fill="#f4f1ec" stroke="#d8d2c8"/>
+<text x="410" y="610" font-size="10.5" font-weight="700" fill="#3a9b6e" text-anchor="start">HOW TO STUDY (evidence-based)</text>
+<text x="410" y="630" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Retrieve, don't re-read: testing beats rereading</text>
+<text x="419" y="643.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">(~50% more retained)</text>
+<text x="410" y="657.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Space reviews over days (flashcards 'due' pile each</text>
+<text x="419" y="670.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">session)</text>
+<text x="410" y="684.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Interleave domains (quiz mixed mode, full exams)</text>
+<text x="410" y="697.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Explain it back (Feynman) using each note's</text>
+<text x="419" y="711.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">teach-it-back list</text>
+<text x="410" y="724.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Simulate: 2 timed 60-Q exams; remediate every miss</text>
+<text x="410" y="738.0" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">• Readiness: &gt;=80% per-domain quiz, &gt;=45/60 on a fresh</text>
+<text x="419" y="751.5" font-size="9.6" font-weight="400" fill="#1f2430" text-anchor="start">exam</text>
+<text x="397.0" y="1101" font-size="7.6" font-weight="400" fill="#5b6472" text-anchor="middle">MIT-licensed · 'Claude' &amp; 'Claude Certified Architect' are trademarks of Anthropic PBC · Open the study hub (index.html) for interactive flashcards &amp; quizzes</text>
+</svg>

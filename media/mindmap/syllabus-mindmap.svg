@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" font-family="Helvetica,Arial,sans-serif">
+<rect width="1100" height="720" fill="#ffffff"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#1f2430">CCA-F Syllabus Mind-Map</text>
+<text x="40" y="62" font-size="12" fill="#5b6472">Unofficial · weights community-reported · the spine of what to learn</text>
+<rect x="80" y="334" width="150" height="52" rx="14" fill="#1f2430"/>
+<text x="155" y="358" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">CCA-F</text>
+<text x="155" y="376" text-anchor="middle" font-size="11" fill="#c9cdd6">5 domains</text>
+<path d="M230,360 C 250,360 250,92.0 320,92.0" stroke="#d97757" stroke-width="2.5" fill="none"/>
+<rect x="320" y="72.0" width="210" height="40" rx="12" fill="#d97757"/>
+<text x="332" y="97.0" font-size="13.5" font-weight="700" fill="#ffffff">D1 · Agentic Architecture</text>
+<path d="M530,92.0 C 550,92.0 550,32.0 570,32.0" stroke="#d97757" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="32.0" r="3" fill="#d97757"/>
+<text x="578" y="36.0" font-size="11.5" fill="#1f2430">Workflows vs agents</text>
+<path d="M530,92.0 C 550,92.0 550,56.0 570,56.0" stroke="#d97757" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="56.0" r="3" fill="#d97757"/>
+<text x="578" y="60.0" font-size="11.5" fill="#1f2430">5 patterns (chain/route/parallel/orch/eval)</text>
+<path d="M530,92.0 C 550,92.0 550,80.0 570,80.0" stroke="#d97757" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="80.0" r="3" fill="#d97757"/>
+<text x="578" y="84.0" font-size="11.5" fill="#1f2430">Agentic loop + stop conditions</text>
+<path d="M530,92.0 C 550,92.0 550,104.0 570,104.0" stroke="#d97757" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="104.0" r="3" fill="#d97757"/>
+<text x="578" y="108.0" font-size="11.5" fill="#1f2430">Single vs multi-agent</text>
+<path d="M530,92.0 C 550,92.0 550,128.0 570,128.0" stroke="#d97757" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="128.0" r="3" fill="#d97757"/>
+<text x="578" y="132.0" font-size="11.5" fill="#1f2430">Orchestrator–subagents</text>
+<path d="M530,92.0 C 550,92.0 550,152.0 570,152.0" stroke="#d97757" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="152.0" r="3" fill="#d97757"/>
+<text x="578" y="156.0" font-size="11.5" fill="#1f2430">Hooks vs prompts</text>
+<path d="M230,360 C 250,360 250,236.0 320,236.0" stroke="#3b6fd4" stroke-width="2.5" fill="none"/>
+<rect x="320" y="216.0" width="210" height="40" rx="12" fill="#3b6fd4"/>
+<text x="332" y="241.0" font-size="13.5" font-weight="700" fill="#ffffff">D2 · Prompt Engineering</text>
+<path d="M530,236.0 C 550,236.0 550,176.0 570,176.0" stroke="#3b6fd4" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="176.0" r="3" fill="#3b6fd4"/>
+<text x="578" y="180.0" font-size="11.5" fill="#1f2430">Clarity ladder</text>
+<path d="M530,236.0 C 550,236.0 550,200.0 570,200.0" stroke="#3b6fd4" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="200.0" r="3" fill="#3b6fd4"/>
+<text x="578" y="204.0" font-size="11.5" fill="#1f2430">Few-shot (diverse!)</text>
+<path d="M530,236.0 C 550,236.0 550,224.0 570,224.0" stroke="#3b6fd4" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="224.0" r="3" fill="#3b6fd4"/>
+<text x="578" y="228.0" font-size="11.5" fill="#1f2430">Chain-of-thought</text>
+<path d="M530,236.0 C 550,236.0 550,248.0 570,248.0" stroke="#3b6fd4" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="248.0" r="3" fill="#3b6fd4"/>
+<text x="578" y="252.0" font-size="11.5" fill="#1f2430">Structured output via tools</text>
+<path d="M530,236.0 C 550,236.0 550,272.0 570,272.0" stroke="#3b6fd4" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="272.0" r="3" fill="#3b6fd4"/>
+<text x="578" y="276.0" font-size="11.5" fill="#1f2430">Anti-hallucination</text>
+<path d="M530,236.0 C 550,236.0 550,296.0 570,296.0" stroke="#3b6fd4" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="296.0" r="3" fill="#3b6fd4"/>
+<text x="578" y="300.0" font-size="11.5" fill="#1f2430">Evals</text>
+<path d="M230,360 C 250,360 250,380.0 320,380.0" stroke="#3a9b6e" stroke-width="2.5" fill="none"/>
+<rect x="320" y="360.0" width="210" height="40" rx="12" fill="#3a9b6e"/>
+<text x="332" y="385.0" font-size="13.5" font-weight="700" fill="#ffffff">D3 · Tools &amp; MCP</text>
+<path d="M530,380.0 C 550,380.0 550,320.0 570,320.0" stroke="#3a9b6e" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="320.0" r="3" fill="#3a9b6e"/>
+<text x="578" y="324.0" font-size="11.5" fill="#1f2430">Tool-use loop</text>
+<path d="M530,380.0 C 550,380.0 550,344.0 570,344.0" stroke="#3a9b6e" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="344.0" r="3" fill="#3a9b6e"/>
+<text x="578" y="348.0" font-size="11.5" fill="#1f2430">Tool design = description</text>
+<path d="M530,380.0 C 550,380.0 550,368.0 570,368.0" stroke="#3a9b6e" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="368.0" r="3" fill="#3a9b6e"/>
+<text x="578" y="372.0" font-size="11.5" fill="#1f2430">MCP host/client/server</text>
+<path d="M530,380.0 C 550,380.0 550,392.0 570,392.0" stroke="#3a9b6e" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="392.0" r="3" fill="#3a9b6e"/>
+<text x="578" y="396.0" font-size="11.5" fill="#1f2430">3 primitives</text>
+<path d="M530,380.0 C 550,380.0 550,416.0 570,416.0" stroke="#3a9b6e" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="416.0" r="3" fill="#3a9b6e"/>
+<text x="578" y="420.0" font-size="11.5" fill="#1f2430">Local vs remote</text>
+<path d="M530,380.0 C 550,380.0 550,440.0 570,440.0" stroke="#3a9b6e" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="440.0" r="3" fill="#3a9b6e"/>
+<text x="578" y="444.0" font-size="11.5" fill="#1f2430">Server security</text>
+<path d="M230,360 C 250,360 250,524.0 320,524.0" stroke="#b4862f" stroke-width="2.5" fill="none"/>
+<rect x="320" y="504.0" width="210" height="40" rx="12" fill="#b4862f"/>
+<text x="332" y="529.0" font-size="13.5" font-weight="700" fill="#ffffff">D4 · Context &amp; Reliability</text>
+<path d="M530,524.0 C 550,524.0 550,464.0 570,464.0" stroke="#b4862f" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="464.0" r="3" fill="#b4862f"/>
+<text x="578" y="468.0" font-size="11.5" fill="#1f2430">Context engineering</text>
+<path d="M530,524.0 C 550,524.0 550,488.0 570,488.0" stroke="#b4862f" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="488.0" r="3" fill="#b4862f"/>
+<text x="578" y="492.0" font-size="11.5" fill="#1f2430">Prompt caching</text>
+<path d="M530,524.0 C 550,524.0 550,512.0 570,512.0" stroke="#b4862f" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="512.0" r="3" fill="#b4862f"/>
+<text x="578" y="516.0" font-size="11.5" fill="#1f2430">Compaction + memory</text>
+<path d="M530,524.0 C 550,524.0 550,536.0 570,536.0" stroke="#b4862f" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="536.0" r="3" fill="#b4862f"/>
+<text x="578" y="540.0" font-size="11.5" fill="#1f2430">Backoff + retries</text>
+<path d="M530,524.0 C 550,524.0 550,560.0 570,560.0" stroke="#b4862f" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="560.0" r="3" fill="#b4862f"/>
+<text x="578" y="564.0" font-size="11.5" fill="#1f2430">Self-consistency</text>
+<path d="M530,524.0 C 550,524.0 550,584.0 570,584.0" stroke="#b4862f" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="584.0" r="3" fill="#b4862f"/>
+<text x="578" y="588.0" font-size="11.5" fill="#1f2430">RAG grounding</text>
+<path d="M230,360 C 250,360 250,668.0 320,668.0" stroke="#7a5bd0" stroke-width="2.5" fill="none"/>
+<rect x="320" y="648.0" width="210" height="40" rx="12" fill="#7a5bd0"/>
+<text x="332" y="673.0" font-size="13.5" font-weight="700" fill="#ffffff">D5 · Claude Code</text>
+<path d="M530,668.0 C 550,668.0 550,608.0 570,608.0" stroke="#7a5bd0" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="608.0" r="3" fill="#7a5bd0"/>
+<text x="578" y="612.0" font-size="11.5" fill="#1f2430">Config layers</text>
+<path d="M530,668.0 C 550,668.0 550,632.0 570,632.0" stroke="#7a5bd0" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="632.0" r="3" fill="#7a5bd0"/>
+<text x="578" y="636.0" font-size="11.5" fill="#1f2430">CLAUDE.md memory</text>
+<path d="M530,668.0 C 550,668.0 550,656.0 570,656.0" stroke="#7a5bd0" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="656.0" r="3" fill="#7a5bd0"/>
+<text x="578" y="660.0" font-size="11.5" fill="#1f2430">Hooks (Pre/Post)</text>
+<path d="M530,668.0 C 550,668.0 550,680.0 570,680.0" stroke="#7a5bd0" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="680.0" r="3" fill="#7a5bd0"/>
+<text x="578" y="684.0" font-size="11.5" fill="#1f2430">Subagents</text>
+<path d="M530,668.0 C 550,668.0 550,704.0 570,704.0" stroke="#7a5bd0" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="704.0" r="3" fill="#7a5bd0"/>
+<text x="578" y="708.0" font-size="11.5" fill="#1f2430">Skills</text>
+<path d="M530,668.0 C 550,668.0 550,728.0 570,728.0" stroke="#7a5bd0" stroke-width="1.5" fill="none" opacity="0.7"/>
+<circle cx="570" cy="728.0" r="3" fill="#7a5bd0"/>
+<text x="578" y="732.0" font-size="11.5" fill="#1f2430">Headless CI guardrails</text>
+</svg>

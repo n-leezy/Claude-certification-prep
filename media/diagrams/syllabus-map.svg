@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 560" font-family="Helvetica,Arial,sans-serif">
+<rect width="840" height="560" fill="#ffffff"/>
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#5b6472"/></marker></defs>
+<text x="420.0" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#1f2430">CCA-F Syllabus Map — 5 Domains (weights are COMMUNITY-reported)</text>
+<line x1="300" y1="300" x2="165" y2="126" stroke="#5b6472" stroke-width="2" marker-end="url(#ah)"/>
+<line x1="540" y1="300" x2="685" y2="126" stroke="#5b6472" stroke-width="2" marker-end="url(#ah)"/>
+<line x1="330" y1="300" x2="145" y2="400" stroke="#5b6472" stroke-width="2" marker-end="url(#ah)"/>
+<line x1="510" y1="300" x2="705" y2="400" stroke="#5b6472" stroke-width="2" marker-end="url(#ah)"/>
+<line x1="420" y1="320" x2="420" y2="470" stroke="#5b6472" stroke-width="2" marker-end="url(#ah)"/>
+<ellipse cx="420.0" cy="260.0" rx="60.0" ry="60.0" fill="#d97757" stroke="#d97757" stroke-width="2"/>
+<text x="420.0" y="256.1" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">CCA-F</text>
+<text x="420.0" y="275.1" text-anchor="middle" font-size="16" font-weight="400" fill="#ffffff">5 domains</text>
+<rect x="40" y="60" width="250" height="66" rx="12" fill="#f4f1ec" stroke="#1f2430" stroke-width="2"/>
+<text x="165.0" y="89.55" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2430">D1 · Agentic Architecture  ~27%</text>
+<text x="165.0" y="105.55" text-anchor="middle" font-size="13" font-weight="400" fill="#1f2430">agents vs workflows, orchestration</text>
+<rect x="560" y="60" width="250" height="66" rx="12" fill="#f4f1ec" stroke="#1f2430" stroke-width="2"/>
+<text x="685.0" y="89.55" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2430">D2 · Prompt Engineering  ~20%</text>
+<text x="685.0" y="105.55" text-anchor="middle" font-size="13" font-weight="400" fill="#1f2430">clarity, examples, JSON output</text>
+<rect x="20" y="400" width="250" height="66" rx="12" fill="#f4f1ec" stroke="#1f2430" stroke-width="2"/>
+<text x="145.0" y="429.55" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2430">D3 · Tools &amp; MCP  ~18%</text>
+<text x="145.0" y="445.55" text-anchor="middle" font-size="13" font-weight="400" fill="#1f2430">tool schemas, MCP primitives</text>
+<rect x="580" y="400" width="250" height="66" rx="12" fill="#f4f1ec" stroke="#1f2430" stroke-width="2"/>
+<text x="705.0" y="429.55" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2430">D4 · Context &amp; Reliability  ~15%</text>
+<text x="705.0" y="445.55" text-anchor="middle" font-size="13" font-weight="400" fill="#1f2430">caching, context, robustness</text>
+<rect x="300" y="470" width="250" height="60" rx="12" fill="#f4f1ec" stroke="#1f2430" stroke-width="2"/>
+<text x="425.0" y="496.55" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2430">D5 · Claude Code  ~20%</text>
+<text x="425.0" y="512.55" text-anchor="middle" font-size="13" font-weight="400" fill="#1f2430">settings, hooks, subagents, CI</text>
+</svg>
