@@ -57,5 +57,6 @@ Recall feels worse than re-reading because it's harder — that difficulty is ex
 - Flashcard wording principles adapted from the SuperMemo "20 rules of formulating knowledge" tradition (minimum-information principle).
 
 ### Further reading (from Noah's Reader library)
+
 - Andy Matuschak — *Two accidental tyrannies* / his writing on spaced-repetition memory systems (https://andymatuschak.org/tat/) — on building durable understanding with spaced practice.
 - *Learning flywheels are all you need* — Inverted Passion (https://invertedpassion.com/learning-flywheels-are-all-you-need/) — compounding loops of learn → test → adjust.
